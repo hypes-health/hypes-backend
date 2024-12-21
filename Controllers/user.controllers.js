@@ -38,13 +38,11 @@ export const ReportHandler  = async(req,res)=>{
           
             const response = await axios.request(config)
             const report = response.data;
-           
-
+            report.name = req.body.name
+            report.reportedOn = req.body.date
+            console.log(report)
             const newReport = new Report(report)
-            newReport.name = req.name
-            newReport.reportedOn = req.date
             
-            console.log(newReport)
 
             await newReport.save()
             fs.unlinkSync(filePath)
