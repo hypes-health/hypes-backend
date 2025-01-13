@@ -2,7 +2,7 @@ import fs from "fs";
 import axios from "axios";
 import Report from "../Models/report.model.js";
 import FormData from "form-data";
-
+import User from "../Models/user.model.js";
 export const getReports =async (req , res) =>{
     try {
         //get omoongo code 
@@ -20,8 +20,10 @@ export const getReports =async (req , res) =>{
 
 export const ReportHandler  = async(req,res)=>{
     try {
-        
-        const filePath = req.file.path;
+
+        // const user = await User.findById(req.user._id)
+        // console.log(user)
+        const filePath = req.file?.path;
         const fileStream =await fs.createReadStream(filePath)
         let reportData = new FormData();
         reportData.append('file', fileStream);
@@ -42,9 +44,9 @@ export const ReportHandler  = async(req,res)=>{
             report.reportedOn = req.body.date
             console.log(report)
             const newReport = new Report(report)
-            
-
+            // user.reports.push(newReport._id)
             await newReport.save()
+            // await user.save()
             fs.unlinkSync(filePath)
             res.status(200).send(response.data)
 
@@ -52,5 +54,15 @@ export const ReportHandler  = async(req,res)=>{
     } catch (error) {
         console.log(error)
         res.status(500).send({error : "Error at Report Handler"})
+    }
+}
+
+export const getHistory = async(req,res)=>{
+    try {
+        const name = req.params.name
+        const reports = await Report.find({name : name})
+        res.status(200).send(reports)
+    } catch (error) {
+        res.status(500).send({error : "Error at getHistory"})
     }
 }

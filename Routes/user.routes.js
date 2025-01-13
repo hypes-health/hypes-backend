@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 import path from "path"
 import { protectRoute } from "../Middleware/protectRoute.js";
-import { ReportHandler  , getReports} from "../Controllers/user.controllers.js";
+import { ReportHandler  , getReports , getHistory} from "../Controllers/user.controllers.js";
 const router = express.Router();
 
 const storage = multer.diskStorage({
@@ -27,6 +27,7 @@ const storage = multer.diskStorage({
     }
 });
 
-router.post("/uploadReport", upload.single("report") ,  ReportHandler)
+router.post("/uploadReport", upload.single("report")  ,  ReportHandler)
 router.post("getAllReports" , protectRoute ,  getReports)
+router.get("/getHistory/:name" , protectRoute ,  getHistory)
 export default router
