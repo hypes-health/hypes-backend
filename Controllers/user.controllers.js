@@ -21,8 +21,8 @@ export const getReports =async (req , res) =>{
 export const ReportHandler  = async(req,res)=>{
     try {
 
-        // const user = await User.findById(req.user._id)
-        // console.log(user)
+        const user = await User.findById(req.user._id)
+        console.log(user)
         const filePath = req.file?.path;
         const fileStream =await fs.createReadStream(filePath)
         let reportData = new FormData();
@@ -31,7 +31,7 @@ export const ReportHandler  = async(req,res)=>{
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'http://localhost:5000/pdf',
+            url: 'https://main.d3mrc6r70azp2w.amplifyapp.com/pdf',
             headers: { 
               ...reportData.getHeaders()
             },
@@ -40,13 +40,11 @@ export const ReportHandler  = async(req,res)=>{
           
             const response = await axios.request(config)
             const report = response.data;
-            report.name = req.body.name
-            report.reportedOn = req.body.date
-            console.log(report)
+            report.user = req.user._id;
             const newReport = new Report(report)
-            // user.reports.push(newReport._id)
+            user.reports.push(newReport._id)
             await newReport.save()
-            // await user.save()
+            await user.save()
             fs.unlinkSync(filePath)
             res.status(200).send(response.data)
 

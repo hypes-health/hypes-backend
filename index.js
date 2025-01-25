@@ -11,7 +11,7 @@ dotenv.config({path : "./.env"});
 bodyParser.json()
 const app = express()
 app.use(cors({
-    origin: "http://localhost:3000", // Replace with your client URL
+    origin: "https://main.d21ap67fa0via4.amplifyapp.com/", // Replace with your client URL
     credentials: true // Allows cookies to be sent
   }));
 app.use(express.json())
@@ -20,7 +20,4 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth" , authRoutes)
 app.use("/api/user" , userRoutes)
 
-app.listen(8000 , ()=>{
-    console.log("Server running on port 8000")
-    connectDB();
-})
+module.exports.handler = serverless(app);

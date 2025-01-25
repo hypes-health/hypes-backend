@@ -3,15 +3,11 @@ import mongoose from "mongoose";
 
 
 const ReportSchema = new mongoose.Schema({
-    name:{
-        type : String, 
-    },
-    age : {
-        type : Number ,
-    } , 
 
-    sex :{
-        type : String , 
+
+    user : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Users"
     },
     reportedOn : {
         type : String, 
