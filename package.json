@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "chmod +x bin/postbuild.sh && ./bin/postbuild.sh",
-    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "type": "module",
   "repository": {
